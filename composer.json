@@ -1,0 +1,17 @@
+{
+    "name": "wesyspro/reflect",
+    "description": "Feature for Reflect Mapper Methods",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Wesyspro\\Reflect\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "websyspro",
+            "email": "cpd.emersontsa@gmail.com"
+        }
+    ],
+    "require": {}
+}
