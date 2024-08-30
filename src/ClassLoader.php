@@ -4,6 +4,8 @@ namespace Websyspro\Reflect
 {
   use ReflectionClass;
   use ReflectionAttribute;
+  use ReflectionMethod;
+  use ReflectionParameter;
   use ReflectionProperty;
   use Websyspro\Common\Utils;
 
@@ -12,6 +14,7 @@ namespace Websyspro\Reflect
     public ReflectionClass $reflectionClass;
     public array $reflectClassAttributes = [];
     public array $reflectClassProperties = [];
+    public array $reflectClassMethods = [];
 
     function __construct(
       public string $objectOrClass
@@ -19,6 +22,7 @@ namespace Websyspro\Reflect
       $this->ObterReflectClass();
       $this->ObterReflectClassAttributs();
       $this->ObterReflectClassProperties();
+      $this->ObterReflectClassMethodos();
 
       print_r($this);
     }
@@ -64,6 +68,50 @@ namespace Websyspro\Reflect
           )
         )
       );
+    }
+
+    private function ObterReflectClassMethod(
+      string $method
+    ): ReflectionMethod {
+      return new ReflectionMethod(
+        $this->objectOrClass, $method
+      );
+    }
+
+    private function ObterReflectClassMethodAttributes(
+      string $method
+    ): array {
+      return Utils::Mapper($this->ObterReflectClassMethod($method)->getAttributes(), 
+        fn( ReflectionAttribute $reflectionAttribute) => (
+          $this->ObterClassAttributes($reflectionAttribute)
+        )
+      );
+    }
+
+    private function ObterReflectClassMethodProperties(
+      string $method
+    ): array {
+      return 
+        Utils::Mapper( $this->ObterReflectClassMethod($method)->getParameters(), 
+          fn( ReflectionParameter $param) => Utils::ShitArray(
+            Utils::Mapper($param->getAttributes(),
+              fn( ReflectionAttribute $reflectionAttribute ) => (
+                $this->ObterClassAttributes($reflectionAttribute)
+              )
+            )
+          )
+        );
+    }
+
+    private function ObterReflectClassMethodos(
+    ): void {
+      Utils::Mapper(get_class_methods($this->objectOrClass), fn(string $method) => (
+        $this->reflectClassMethods[$method] = [
+          "isConstruct" => preg_match("/^__/", $method),
+          "attributes"  => $this->ObterReflectClassMethodAttributes($method),
+          "properties"  => $this->ObterReflectClassMethodProperties($method)
+        ]
+      ));
     }
   }
 }
