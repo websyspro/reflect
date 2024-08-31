@@ -9,7 +9,7 @@ namespace Websyspro\Reflect
   use ReflectionProperty;
   use Websyspro\Common\Utils;
 
-  class ClassLoader
+  class ClassReflectLoader
   {
     public ReflectionClass $reflectionClass;
     public array $reflectClassAttributes = [];

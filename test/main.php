@@ -9,6 +9,7 @@ use Websyspro\Reflect\Attributes\UserService;
 use Websyspro\Reflect\Attributes\Varchar;
 use Websyspro\Reflect\ClassLoader;
 use Websyspro\Reflect\Attributes\Controller;
+use Websyspro\Reflect\ClassReflectLoader;
 
 #[Controller("controller")]
 #[Authenticate()]
@@ -32,6 +33,6 @@ class TMain
   }
 }
 
-$classLoad = new ClassLoader(
+$classLoad = new ClassReflectLoader(
   objectOrClass: TMain::class
 );
