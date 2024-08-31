@@ -88,24 +88,32 @@ namespace Websyspro\Reflect
       );
     }
 
+    private function IsValidAttributes(
+      ReflectionParameter $reflectionParameter
+    ): bool {
+      return Utils::IsValidArray($reflectionParameter->getAttributes()) 
+          && Utils::IsEmptyArray($reflectionParameter->getAttributes()) === false;
+    }
+
     private function ObterReflectClassMethodProperties(
       string $method
     ): array {
-      return 
-        Utils::Mapper( $this->ObterReflectClassMethod($method)->getParameters(), 
-          fn( ReflectionParameter $param) => Utils::ShitArray(
-            Utils::Mapper($param->getAttributes(),
-              fn( ReflectionAttribute $reflectionAttribute ) => (
-                $this->ObterClassAttributes($reflectionAttribute)
+      return Utils::Mapper( $this->ObterReflectClassMethod($method)->getParameters(),
+        fn(ReflectionParameter $parameter) => Utils::ShitArray(
+          $this->IsValidAttributes($parameter)
+            ? Utils::Mapper($parameter->getAttributes(),
+                fn( ReflectionAttribute $reflectionAttribute ) => (
+                  $this->ObterClassAttributes($reflectionAttribute)
+                )
               )
-            )
-          )
-        );
+            : [ new ClassInstances($parameter->getType()->getName()) ]
+        )
+      );
     }
 
     private function ObterReflectClassMethodos(
     ): void {
-      Utils::Mapper(get_class_methods($this->objectOrClass), fn(string $method) => (
+      Utils::Mapper( get_class_methods($this->objectOrClass), fn(string $method) => (
         $this->reflectClassMethods[$method] = [
           "attributes"  => $this->ObterReflectClassMethodAttributes($method),
           "properties"  => $this->ObterReflectClassMethodProperties($method)
