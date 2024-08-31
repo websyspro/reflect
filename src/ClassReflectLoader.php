@@ -11,21 +11,34 @@ namespace Websyspro\Reflect
 
   class ClassReflectLoader
   {
-    public ReflectionClass $reflectionClass;
-    public array $reflectClassAttributes = [];
-    public array $reflectClassProperties = [];
-    public array $reflectClassMethods = [];
+    private ReflectionClass $reflectionClass;
+    private array $reflectClassAttributes = [];
+    private array $reflectClassProperties = [];
+    private array $reflectClassMethods = [];
 
     function __construct(
-      public string $objectOrClass
+      private string $objectOrClass
     ){
       $this->ObterReflectClass();
       $this->ObterReflectClassAttributs();
       $this->ObterReflectClassProperties();
       $this->ObterReflectClassMethodos();
-
-      print_r($this);
     }
+
+    public function ObterAttributes(
+    ): array {
+      return $this->reflectClassAttributes;
+    }
+
+    public function ObterProperties(
+    ): array {
+      return $this->reflectClassProperties;
+    }
+    
+    public function ObterMethods(
+    ): array {
+      return $this->reflectClassMethods;
+    }    
 
     private function ReflectClass(
       string $objectOrClass
