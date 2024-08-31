@@ -66,7 +66,7 @@ namespace Websyspro\Reflect
           fn( ReflectionAttribute $reflectionAttribute) => (
             $this->reflectClassProperties[
               $properties->getName()
-            ] = $this->ObterClassAttributes($reflectionAttribute)
+            ][] = $this->ObterClassAttributes($reflectionAttribute)
           )
         )
       );
