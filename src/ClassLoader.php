@@ -107,7 +107,6 @@ namespace Websyspro\Reflect
     ): void {
       Utils::Mapper(get_class_methods($this->objectOrClass), fn(string $method) => (
         $this->reflectClassMethods[$method] = [
-          "isConstruct" => preg_match("/^__/", $method),
           "attributes"  => $this->ObterReflectClassMethodAttributes($method),
           "properties"  => $this->ObterReflectClassMethodProperties($method)
         ]
