@@ -1,5 +1,5 @@
 {
-    "name": "wesyspro/reflect",
+    "name": "websyspro/reflect",
     "description": "Feature for Reflect Mapper Methods",
     "type": "library",
     "autoload": {
