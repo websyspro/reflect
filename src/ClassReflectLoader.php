@@ -64,7 +64,9 @@ namespace Websyspro\Reflect
       Utils::Mapper($this->reflectionClass->getProperties(),
         fn( ReflectionProperty $properties ) => Utils::Mapper( $properties->getAttributes(), 
           fn( ReflectionAttribute $reflectionAttribute) => (
-            $this->reflectClassProperties[] = $this->ObterClassAttributes($reflectionAttribute)
+            $this->reflectClassProperties[
+              $properties->getName()
+            ] = $this->ObterClassAttributes($reflectionAttribute)
           )
         )
       );
